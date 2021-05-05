@@ -1,0 +1,9 @@
+# Gambas Project File 3.0
+Title=LeeTXTyRenombraPDF
+Startup=Main
+Version=0.0.1
+Description="HERRAMIENTA: LEE UN FICHERO DE TEXTO, EXTRAE INFORMACION DE EL Y RENOMBRA UN FICHERO .PDF"
+Authors="JULIO SANCHEZ BERRO"
+TabSize=2
+Language=en_US
+Packager=1

@@ -1,0 +1,51 @@
+' Gambas module file
+
+'------------------------------------------------------------------------------
+'nota:
+'1. El pdf se ha dividido en paginas sueltas
+'cada pagina de pdf se ha hecho ocr, para convertirla en .txt
+'con el comando pdftotext
+' y con el script:
+'for file in *.pdf; do pdftotext -layout "$file"; done
+'Creditos:
+'url: https://ubunlog.com/pdftotext-convierte-pdf-texto/
+'------------------------------------------------------------------------------
+
+Public Sub Main()
+
+  'tarea para hacer:
+  'LEER TODOS LOS FICHERO .TXT
+
+  'por cada fichero .txt, extraer de la linea:
+  'INVENTARIO DE ELEMENTOS: -> tipo
+  'PK PROYECTO:  -> pk
+
+  'COPIAR  NombreBase .txt a .PDF -> A  -> TIPO + PK .PDF
+
+  Dim Files As String
+  Dim directorio As String = "/home/hdd/home/mint/Documentos/00 Trabajos/Cuarentena Trabajo/00 Proyectos/21 Proyecto Arroz/otros/inventario CBG"
+  Dim contenido As String
+  Dim elementos As String
+  Dim pk As String
+
+  For Each Files In Dir(directorio, "*.txt").Sort()
+
+    contenido = File.load(directorio & "/" & files)
+
+    elementos = RTrim(LTrim(comun.entre(contenido, "INVENTARIO DE ELEMENTOS:", "\n")))
+    pk = comun.entre(contenido, "PK PROYECTO:", "         ")
+    If pk = "" Then pk = comun.entre(contenido, "PK PROYECTO:", "\n")
+    If InStr(pk, "\n") <> 0 Then PK = comun.entre(pk, "", "\n")
+
+    If ELEMENTOS <> "" And Len(elementos) < 30 Then
+      Print files, ELEMENTOS, pk
+      Try Copy directorio & "/" & File.BaseName(files) & ".pdf" To directorio & "/" & "PK " & Replace(LTrim(RTrim(pk)), GB.TAB, "") & " " & Replace(LTrim(RTrim(ELEMENTOS)), GB.TAB, "") & ".pdf"
+
+      If Error Then
+        Print "ERROR: " & File.BaseName(files) & ".pdf  -> PK " & pk & " " & ELEMENTOS & ".pdf"
+        Try Copy directorio & "/" & File.BaseName(files) & ".pdf" To directorio & "/" & "PK " & Replace(LTrim(RTrim(pk)), GB.TAB, "") & " " & Replace(LTrim(RTrim(ELEMENTOS & "-OTRO")), GB.TAB, "") & ".pdf"
+      Endif
+    Endif
+  Next
+
+End
